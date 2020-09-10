@@ -50,11 +50,11 @@ export default Service.extend(Evented, {
   },
 
   allFlags() {
-    return this.get('_client').allFlags();
+    return this._client.allFlags();
   },
 
   variation(key, defaultValue) {
-    return this.get('_client').variation(key, defaultValue);
+    return this._client.variation(key, defaultValue);
   },
 
   _config() {
@@ -82,7 +82,7 @@ export default Service.extend(Evented, {
       });
 
       run.later(this, () => {
-        if (!this.get('_client')) {
+        if (!this._client) {
           run(null, reject);
         }
       }, 10000);
@@ -91,7 +91,7 @@ export default Service.extend(Evented, {
 
   _identify(user) {
     return new RSVP.Promise(resolve => {
-      this.get('_client').identify(user, null, resolve);
+      this._client.identify(user, null, resolve);
     })
   },
 

@@ -31,7 +31,7 @@ export default Service.extend(Evented, {
   },
 
   variation(key, defaultValue = false) {
-    if (this._allFlags.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(this._allFlags, key)) {
       return this._allFlags[key];
     }
 

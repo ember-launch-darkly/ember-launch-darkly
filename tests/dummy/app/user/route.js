@@ -16,6 +16,6 @@ export default Route.extend({
   },
 
   afterModel(user) {
-    return this.get('launchDarkly').identify(user);
+    return this.launchDarkly.identify(user);
   }
 });

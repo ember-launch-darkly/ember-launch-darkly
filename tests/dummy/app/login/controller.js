@@ -9,7 +9,7 @@ export default Controller.extend({
 
   // BEGIN-SNIPPET as-cp-dependent-key
   price: computed('launchDarkly.apply-discount', function() {
-    if (this.get('launchDarkly.apply-discount')) {
+    if (this.launchDarkly.variation['apply-discount']) {
       return '99';
     }
 
@@ -19,7 +19,7 @@ export default Controller.extend({
 
   // BEGIN-SNIPPET as-variation-call
   anotherPrice: computed(function() {
-    if (this.get('launchDarkly').variation('apply-discount')) {
+    if (this.launchDarkly.variation('apply-discount')) {
       return '99';
     }
 
@@ -31,7 +31,7 @@ export default Controller.extend({
   shouldApplyDiscount: computed.alias('launchDarkly.apply-discount'),
 
   yetAnotherPrice: computed('shouldApplyDiscount', function() {
-    if (this.get('shouldApplyDiscount')) {
+    if (this.shouldApplyDiscount) {
       return '99';
     }
 

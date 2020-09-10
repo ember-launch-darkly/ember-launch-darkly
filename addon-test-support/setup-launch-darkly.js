@@ -1,4 +1,4 @@
-import StubClient from './helpers/launch-darkly-client-test';
+import StubClient from './helpers/launch-darkly-client-test-helper';
 
 function setupLaunchDarkly(hooks) {
   hooks.beforeEach(function() {

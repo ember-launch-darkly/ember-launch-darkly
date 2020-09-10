@@ -1,4 +1,4 @@
-<button class="toggle" {{action "toggleVariation" "foobar"}}>TOGGLE</button>
+<button type="button" class="toggle" {{on "click" "toggleVariation" "foobar"}}>TOGGLE</button>
 
 <h1 class="flag-value">{{variation "foobar"}}</h1>
 
@@ -9,9 +9,11 @@
 {{/if}}
 
 {{#with (variation "foobar") as |flag|}}
-  <h1 class="template-with-statement">BAR - {{flag}}</h1>
-{{else}}
-  <h1 class="template-with-statement">FOO - {{flag}}</h1>
+  {{#if flag}}
+    <h1 class="template-with-statement">BAR - {{flag}}</h1>
+  {{else}}
+    <h1 class="template-with-statement">FOO - {{flag}}</h1>
+  {{/if}}
 {{/with}}
 
 {{#let (variation "foobar") as |flag|}}
@@ -22,13 +24,13 @@
   {{/if}}
 {{/let}}
 
-{{#if singleVariationComputed}}
+{{#if this.singleVariationComputed}}
   <h1 class="single-variation-computed">BAR</h1>
 {{else}}
   <h1 class="single-variation-computed">FOO</h1>
 {{/if}}
 
-{{#if multipleVariationComputed}}
+{{#if this.multipleVariationComputed}}
   <h1 class="multiple-variation-computed">BAR</h1>
 {{else}}
   <h1 class="multiple-variation-computed">FOO</h1>

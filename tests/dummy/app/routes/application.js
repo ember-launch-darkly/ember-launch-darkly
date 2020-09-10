@@ -10,6 +10,6 @@ export default Route.extend({
       anonymous: true
     };
 
-    return this.get('launchDarkly').initialize(user);
+    return this.launchDarkly.initialize(user);
   }
 });

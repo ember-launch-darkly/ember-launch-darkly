@@ -1,28 +1,30 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import { variation, computedWithVariation as computed } from 'ember-launch-darkly';
 
-export default Controller.extend({
-  launchDarkly: service(),
-  launchDarklyClient: service(),
+export default class AcceptanceTests extends Controller {
+  @service launchDarkly;
+  @service launchDarklyClient;
 
-  singleVariationComputed: computed(function() {
+  @computed
+  get singleVariationComputed () {
     return variation('foobar');
-  }),
+  }
 
-  multipleVariationComputed: computed(function() {
+  @computed
+  multipleVariationComputed () {
     if (variation('boobaz')) {
       //Do something here
     }
 
     return variation('foobar');
-  }),
-
-  actions: {
-    toggleVariation(flag) {
-      let currentValue = this.launchDarkly.variation(flag);
-      this.launchDarklyClient.setVariation(flag, !currentValue);
-    }
   }
 
-});
+  @action
+  toggleVariation(flag) {
+    let currentValue = this.launchDarkly.variation(flag);
+    this.launchDarklyClient.setVariation(flag, !currentValue);
+  }
+
+}
