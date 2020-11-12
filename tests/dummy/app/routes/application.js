@@ -1,15 +1,17 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { initialize, variation } from 'ember-launch-darkly';
 
-export default Route.extend({
-  launchDarkly: service(),
+import config from 'dummy/config/environment';
 
-  beforeModel() {
-    const user = {
-      key: 'aa0ceb',
-      anonymous: true
-    };
+export default class ApplicationRoute extends Route {
+  async beforeModel() {
+    let { clientSideId, ...rest } = config.launchDarkly;
+    let user = { key: 'cheese' };
 
-    return this.get('launchDarkly').initialize(user);
+    await initialize(clientSideId, user, rest);
   }
-});
+
+  model() {
+    console.log('application route, model hook:', variation('foo'));
+  }
+}

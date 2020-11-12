@@ -1,2 +1,1 @@
-import setupLaunchDarkly from './setup-launch-darkly';
-export { setupLaunchDarkly };
+export { default as setupLaunchDarkly } from './setup-launch-darkly';

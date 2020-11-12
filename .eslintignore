@@ -12,7 +12,6 @@
 
 # misc
 /coverage/
-/nodetests/**/
 !.*
 
 # ember-try

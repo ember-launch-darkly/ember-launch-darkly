@@ -23,18 +23,12 @@ module.exports = function(environment) {
     },
 
     launchDarkly: {
-      clientSideId: 'xxx',
-      streaming: true,
-      //streaming: {
-        //allExcept: ['apply-discount']
-      //},
-      //streaming: {
-        //'apply-discount': true,
-        //'some-other-flag': true
-      //},
-      localFeatureFlags: {
-        'apply-discount': true,
-        foobar: true
+      //mode: 'local',
+      clientSideId: '5c816f3fb510dd21a8607b72',
+      streamingFlags: true,
+      bootstrap: 'localFlags',
+      localFlags: {
+        foo: 'bacon'
       }
     }
   };

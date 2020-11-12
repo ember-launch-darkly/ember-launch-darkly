@@ -1,6 +1,11 @@
-import StubClient from './helpers/launch-darkly-client-test';
+import {
+  default as Context,
+  getCurrentContext,
+  setCurrentContext,
+  removeCurrentContext
+} from 'ember-launch-darkly/utils/-sdk/context';
 
-function setupLaunchDarkly(hooks) {
+export default function setupLaunchDarkly(hooks) {
   hooks.beforeEach(function() {
     if (!this.owner) {
       throw new Error(
@@ -8,19 +13,33 @@ function setupLaunchDarkly(hooks) {
       );
     }
 
-    this.owner.register('service:launch-darkly-client', StubClient)
+    let config = this.owner.resolveRegistration('config:environment');
+    let { localFlags } = {
+      localFlags: {},
+      ...config.launchDarkly
+    };
+
+    localFlags = Object.keys(localFlags).reduce((acc, key) => {
+      acc[key] = false;
+
+      return acc;
+    }, {});
+
+    let context = new Context(localFlags);
+
+    setCurrentContext(context);
 
     this.withVariation = (key, value = true) => {
-      let client = this.owner.lookup('service:launch-darkly-client');
-      client.setVariation(key, value);
+      let context = getCurrentContext();
+
+      context.set(key, value);
 
       return value;
-    }
+    };
   });
 
   hooks.afterEach(function() {
     delete this.withVariation;
+    removeCurrentContext();
   });
 }
-
-export default setupLaunchDarkly;

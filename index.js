@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-disable node/no-unpublished-require */
-
 const path = require('path');
 const Funnel = require('broccoli-funnel');
 const MergeTrees = require('broccoli-merge-trees');
@@ -41,17 +39,23 @@ module.exports = {
   },
 
   _eventSourceTree() {
-    return new Funnel(path.dirname(require.resolve('event-source-polyfill/eventsource.js')), {
-      files: ['eventsource.js'],
-    });
+    return new Funnel(
+      path.dirname(require.resolve('event-source-polyfill/src/eventsource.js')),
+      {
+        files: ['eventsource.js']
+      }
+    );
   },
 
   _shouldIncludePolyfill() {
     if (this.project.targets && this.project.targets.browsers) {
       let browsers = browserslist(this.project.targets.browsers);
-      let prohibitedBrowsers = browserslist(EVENT_SOURCE_NON_SUPPORTED_BROWSERS);
+      let prohibitedBrowsers = browserslist(
+        EVENT_SOURCE_NON_SUPPORTED_BROWSERS
+      );
 
-      return prohibitedBrowsers.filter(version => browsers.includes(version)).length;
+      return prohibitedBrowsers.filter(version => browsers.includes(version))
+        .length;
     }
 
     return false;
