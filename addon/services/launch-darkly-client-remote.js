@@ -31,15 +31,17 @@ export default Service.extend(Evented, {
 
       return RSVP.resolve();
     }
+    
+    if (!user.anonymous) {
+      assert('user.key must be specified in initilize payload if not anonymous ', user.key );
 
-    assert('user.key must be specified in initilize payload', user.key);
+      if (!user.key) {
+        warn('user.key not specified in initialize payload. Defaulting all feature flags to "false"', false, { id: 'ember-launch-darkly.user-key-not-specified' });
 
-    if (!user.key) {
-      warn('user.key not specified in initialize payload. Defaulting all feature flags to "false"', false, { id: 'ember-launch-darkly.user-key-not-specified' });
+        this.set('_client', NullClient);
 
-      this.set('_client', NullClient);
-
-      return RSVP.resolve();
+        return RSVP.resolve();
+      }
     }
 
     return this._initialize(clientSideId, user, streaming, options);
