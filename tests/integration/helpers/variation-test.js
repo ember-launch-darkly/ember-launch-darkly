@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-import setupLaunchDarkly from 'ember-launch-darkly/test-support/setup-launch-darkly';
+import { setupLaunchDarkly } from 'ember-launch-darkly/test-support';
 
-module('Integration | Helper | foo', function(hooks) {
+module('Integration | Helper | variation', function(hooks) {
   setupRenderingTest(hooks);
   setupLaunchDarkly(hooks);
 
@@ -22,10 +22,20 @@ module('Integration | Helper | foo', function(hooks) {
 
     assert.dom('h1').hasText('BOO', 'Feature flag is disabled');
 
-    this.withVariation('foo-bar');
-
-    await settled();
+    await this.withVariation('foo-bar');
 
     assert.dom('h1').hasText('YAY', 'Feature flag is enabled');
+  });
+
+  test('it returns the default value if variation is unknown', async function(assert) {
+    assert.expect(2);
+
+    await render(hbs`<h1>{{variation "cheese" defaultValue="bacon"}}</h1>`);
+
+    assert.dom('h1').hasText('bacon', 'Feature flag default value returned');
+
+    await this.withVariation('cheese', 'tomato');
+
+    assert.dom('h1').hasText('tomato', 'Feature flag value returned');
   });
 });

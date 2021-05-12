@@ -1,14 +1,16 @@
 import Application from '@ember/application';
-import Resolver from './resolver';
+import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
-import config from './config/environment';
+import config from 'dummy/config/environment';
 
-const App = Application.extend({
-  modulePrefix: config.modulePrefix,
-  podModulePrefix: config.podModulePrefix,
-  Resolver
-});
+import { removeCurrentContext } from 'ember-launch-darkly/-sdk/context';
+
+removeCurrentContext();
+
+export default class App extends Application {
+  modulePrefix = config.modulePrefix;
+  podModulePrefix = config.podModulePrefix;
+  Resolver = Resolver;
+}
 
 loadInitializers(App, config.modulePrefix);
-
-export default App;
